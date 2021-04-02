@@ -1,8 +1,7 @@
-use rand::{Rng};
-use std::{io, cmp::Ordering};
+use rand::Rng;
+use std::{cmp::Ordering, io};
 
-
-fn main(){
+fn main() {
     println!("guess the random number");
 
     let random_number = rand::thread_rng().gen_range(1..100);
@@ -13,33 +12,29 @@ fn main(){
         counter += 1;
         println!("please input your guess: ");
         let mut guess = String::new();
-        
+
         io::stdin()
-        .read_line(&mut guess)
-        .expect("failed to read input");
-        
-        let guess: u32 = match guess.trim().parse(){
+            .read_line(&mut guess)
+            .expect("failed to read input");
+
+        let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
             Err(_) => continue,
         };
-        
-        match guess.cmp(&random_number){
+
+        match guess.cmp(&random_number) {
             Ordering::Less => println!("guess higher"),
             Ordering::Greater => println!("guess lower"),
             Ordering::Equal => {
                 println!("you win!");
                 break;
             }
-            
         }
-        
+
         println!("remaining guesses: {}", MAX_TRIES - counter);
         if counter == MAX_TRIES {
             println!("no more guesses remaining");
             break;
         }
-        
     }
-
-
 }
